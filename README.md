@@ -1,2 +1,2 @@
-# Demonstration Repo of Gro-Coin
+# Demonstration Repo for Gro-Coin
 Test
