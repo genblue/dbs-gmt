@@ -1,0 +1,6 @@
+applications:
+- name: mangrove-dlt
+  memory: 1G
+  path: app/target/DLTMangrove-app-0.0.1-SNAPSHOT.jar
+  routes:
+  - route: mangrove-dlt.cfapps.io
