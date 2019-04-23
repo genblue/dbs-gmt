@@ -1,4 +1,4 @@
-# Demonstration Repo for Gro-Coin
+# Demonstration Repo for Gro
 
 * Testing tracker integration
 * demo for ankur
