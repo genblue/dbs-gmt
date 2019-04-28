@@ -17,4 +17,8 @@ public interface DatabaseRepository {
     Object retrieveTxn(String colName, String txnId);
 
     String retrieveUser(String colName, String id);
+    
+    List<Nursery> fetchNurseryList();
+    
+    int  addNursery(Nursery nursery);
 }

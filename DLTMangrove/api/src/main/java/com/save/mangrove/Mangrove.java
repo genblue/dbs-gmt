@@ -12,4 +12,5 @@ public interface Mangrove {
 
     boolean publishTxn(Transactions txn) throws Exception;
 
+    List<Nursery> listNurseries();
 }

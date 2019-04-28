@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.save.mangrove.utils.DLTMangroveUtility;
+
+import java.math.BigDecimal;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.Map;
 public class JDBCRepository implements DatabaseRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+    @Autowired
+    private DLTMangroveUtility  dLTMangroveUtility;
 
     private static final String SQL = "select * from user_data";
 
@@ -90,5 +96,38 @@ public class JDBCRepository implements DatabaseRepository {
 
         return data;
     }
+
+	@Override
+	public List<Nursery> fetchNurseryList() {
+		 String SQL = "select * from nursery";
+	        List<Nursery> nurseryList = new ArrayList<>();
+	        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
+
+	        for (Map<String, Object> row : rows) {
+	            Nursery nursery = new Nursery();
+	            nursery.setNurseryId(((int)dLTMangroveUtility.isNullOrBlank(row.get("nursery_id"))));
+	            nursery.setCommunityName(dLTMangroveUtility.isNullOrBlank(row.get("CommunityName")).toString());
+	            nursery.setGeofenceLookupIndex(dLTMangroveUtility.isNullOrBlank(row.get("GeofenceLookupIndex")).toString());
+	            nursery.setGeofenceSize(dLTMangroveUtility.isNullOrBlank(row.get("GeofenceSize")).toString());
+	            nursery.setNurseryAdministratorFamilyName(dLTMangroveUtility.isNullOrBlank(row.get("NurseryAdministratorFamilyName")).toString());
+	            nursery.setNurseryAdministratorFirstName(dLTMangroveUtility.isNullOrBlank(row.get("NurseryAdministratorFirstName")).toString());
+	            nursery.setNurseryProposalSiteLocation(dLTMangroveUtility.isNullOrBlank(row.get("NurseryProposalSiteLocation")).toString());
+	            nursery.setNurserySiteName(dLTMangroveUtility.isNullOrBlank(row.get("NurserySiteName")).toString());
+	            nursery.setPhoto1Team(dLTMangroveUtility.isNullOrBlank(row.get("Photo1Team")).toString());
+	            nursery.setPhoto2NurserySite(dLTMangroveUtility.isNullOrBlank(row.get("Photo2NurserySite")).toString());
+	            nursery.setPhoto3PlantingSite(dLTMangroveUtility.isNullOrBlank(row.get("Photo3PlantingSite")).toString());
+	            nursery.setPlantationProposalSize((BigDecimal)dLTMangroveUtility.isNullOrBlank(row.get("PlantationProposalSize")));
+
+	            nurseryList.add(nursery);
+	        }
+
+	        return nurseryList;
+	}
+
+	@Override
+	public int addNursery(Nursery nursery) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

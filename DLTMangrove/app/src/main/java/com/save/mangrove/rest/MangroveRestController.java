@@ -1,12 +1,17 @@
 package com.save.mangrove.rest;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.save.mangrove.Mangrove;
+import com.save.mangrove.Nursery;
 import com.save.mangrove.Transactions;
 import com.save.mangrove.UserData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class MangroveRestController {
@@ -41,8 +46,16 @@ public class MangroveRestController {
         boolean status=mangrove.publishTxn(txn);
         return status;
     }
+    
+    
+    @GetMapping("/testappstatus")
+    public String fetchAppStatus() throws Exception{
+        return "Yes,Mangrove app is running";
+    }
 
-
-
+    @GetMapping("/nurseries")
+    public List<Nursery> fetchNurseries() {
+        return mangrove.listNurseries();
+    }
 
 }

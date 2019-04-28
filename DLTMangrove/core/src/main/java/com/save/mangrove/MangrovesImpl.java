@@ -91,6 +91,11 @@ public class MangrovesImpl implements Mangrove {
 
     }
 
+	@Override
+	public List<Nursery> listNurseries() {
+		 return repository.fetchNurseryList();
+	}
+
 
 
 
