@@ -12,5 +12,7 @@ public interface Mangrove {
 
     boolean publishTxn(Transactions txn) throws Exception;
 
+    public Nursery fetchNurseryById(int nursery_id);
+    
     List<Nursery> listNurseries();
 }

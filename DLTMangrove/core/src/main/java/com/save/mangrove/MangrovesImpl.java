@@ -96,6 +96,12 @@ public class MangrovesImpl implements Mangrove {
 		 return repository.fetchNurseryList();
 	}
 
+	@Override
+	public Nursery fetchNurseryById(int nursery_id) {
+		// TODO Auto-generated method stub
+		return repository.fetchNurseryById(nursery_id);
+	}
+
 
 
 

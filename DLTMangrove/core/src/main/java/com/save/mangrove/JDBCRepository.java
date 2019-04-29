@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.save.mangrove.rowmappers.NurseryRowMapper;
 import com.save.mangrove.utils.DLTMangroveUtility;
 
 import java.math.BigDecimal;
 import java.security.PublicKey;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +130,14 @@ public class JDBCRepository implements DatabaseRepository {
 	public int addNursery(Nursery nursery) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Nursery fetchNurseryById(int nurseryId) {
+		Nursery nursery=new Nursery();
+		 String SQL = "select * from nursery where nursery_id=?";
+nursery=jdbcTemplate.queryForObject(SQL, new Object[] {nurseryId},new NurseryRowMapper());
+		return nursery;
 	}
 
 }
