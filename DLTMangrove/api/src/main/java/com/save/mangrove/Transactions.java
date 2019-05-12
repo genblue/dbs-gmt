@@ -5,13 +5,24 @@ public class Transactions {
     String txnId;
 
     String userId;
-
     String status;
 
     String mode;
 
     String type;
 
+    int nurseryid;
+
+    public int getNurseryid() {
+		return nurseryid;
+	}
+
+	public void setNurseryid(int nurseryid) {
+		this.nurseryid = nurseryid;
+	}
+
+	
+    
     public String getTxnId() {
         return txnId;
     }

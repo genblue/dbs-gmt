@@ -1,13 +1,15 @@
 package com.save.mangrove;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import sun.misc.BASE64Encoder;
-
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import sun.misc.BASE64Encoder;
 
 @Service
 public class MangrovesImpl implements Mangrove {
@@ -98,8 +100,23 @@ public class MangrovesImpl implements Mangrove {
 
 	@Override
 	public Nursery fetchNurseryById(int nursery_id) {
-		// TODO Auto-generated method stub
 		return repository.fetchNurseryById(nursery_id);
+	}
+
+	@Override
+	public List<Media> getMedias() {
+		return repository.fetchMedias();
+	}
+
+	@Override
+	public List<Media> getMediaByNurseryid(int nurseryId) {		
+		return repository.fetchMediaByNurseryid(nurseryId);
+	}
+
+	@Override
+	public List<Map<String,Object>> getWalletByNurseryid(int nurseryId) {
+		return repository.fetchWalletForNurseryId(nurseryId);
+
 	}
 
 

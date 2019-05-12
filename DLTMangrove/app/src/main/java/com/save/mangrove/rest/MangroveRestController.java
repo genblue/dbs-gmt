@@ -1,6 +1,7 @@
 package com.save.mangrove.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.save.mangrove.Mangrove;
+import com.save.mangrove.Media;
 import com.save.mangrove.Nursery;
 import com.save.mangrove.Transactions;
 import com.save.mangrove.UserData;
@@ -63,4 +65,20 @@ public class MangroveRestController {
     public Nursery fetchNurseryById(@PathVariable("id") int id) {
         return mangrove.fetchNurseryById(id);
     }
+    @GetMapping("/media/{nurseryid}")
+    public List<Media> fetchMediaByNurseryId(@PathVariable("nurseryid") int nurseryid) {
+        return mangrove.getMediaByNurseryid(nurseryid);
+    }
+    
+    @GetMapping("/medias")
+    public List<Media> fetchMedias() {
+        return mangrove.getMedias();
+    }
+    
+    @GetMapping("/wallet/{nurseryid}")
+    public List<Map<String,Object>> fetchWalletForNurseryId(@PathVariable("nurseryid") int nurseryid) {
+        return mangrove.getWalletByNurseryid(nurseryid);
+    }
+    
+    
 }

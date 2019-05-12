@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.security.PublicKey;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,6 +139,71 @@ public class JDBCRepository implements DatabaseRepository {
 		 String SQL = "select * from nursery where nursery_id=?";
 nursery=jdbcTemplate.queryForObject(SQL, new Object[] {nurseryId},new NurseryRowMapper());
 		return nursery;
+	}
+
+	@Override
+	public List<Media> fetchMedias() {
+		String query="select * from media";
+		List<Media> mediaList=new ArrayList<>();
+		List<Map<String,Object>> mediaRecords=jdbcTemplate.queryForList(query);
+		for(Map<String,Object> mediaRecord:mediaRecords) {
+			Media media=new Media();
+			media.setMedia_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_id"))));
+			media.setMedia_s3_link(dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_s3_link")).toString());
+			media.setNursery_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("nursery_id"))));
+			mediaList.add(media);
+		}
+		return mediaList;
+	}
+
+	@Override
+	public List<Media> fetchMediaByNurseryid(int nurseryId) {
+		String query="select * from media where  nursery_id=?";
+		List<Media> mediaList=new ArrayList<>();
+
+		List<Map<String,Object>> rows=jdbcTemplate.queryForList(query,new Object[] {nurseryId});
+		
+		for(Map<String,Object> mediaRecord:rows) {
+			Media media=new Media();
+			media.setMedia_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_id"))));
+			media.setMedia_s3_link(dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_s3_link")).toString());
+			media.setNursery_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("nursery_id"))));
+			mediaList.add(media);
+		}
+		return mediaList;
+	}
+
+	@Override
+	public List<Map<String,Object>> fetchWalletForNurseryId(int nurseryId) {
+		String query ="select * from transactions where nursery_id=?";
+		List<Map<String,Object>> rows=jdbcTemplate.queryForList(query, new Object[] {nurseryId});
+		List<Map<String,Object>> transactionList=new ArrayList<>();
+		int finalAmount=0;
+		for(Map<String,Object> row:rows) {
+			Map<String,Object> resultObject=new HashMap<>();
+			resultObject.put("amount",(int)dLTMangroveUtility.isNullOrBlank(row.get("amount")));
+			resultObject.put("type",dLTMangroveUtility.isNullOrBlank(row.get("type")).toString());
+
+			resultObject.put("mode",dLTMangroveUtility.isNullOrBlank(row.get("mode")).toString());
+			if(dLTMangroveUtility.isNullOrBlank(row.get("status")).toString().equals("successful")) {
+				if(dLTMangroveUtility.isNullOrBlank(row.get("type")).toString().equals("credit")) {
+					finalAmount+=	(int)dLTMangroveUtility.isNullOrBlank(row.get("amount"));
+				}
+				
+				else {
+					finalAmount-=	(int)dLTMangroveUtility.isNullOrBlank(row.get("amount"));
+
+				}
+				
+			}
+			resultObject.put("nusery_id",(int)dLTMangroveUtility.isNullOrBlank(row.get("nursery_id")));
+			resultObject.put("status",dLTMangroveUtility.isNullOrBlank(row.get("status")).toString());
+			resultObject.put("closing_balance",finalAmount);
+
+			transactionList.add(resultObject);
+		}
+				
+		return transactionList;
 	}
 
 }
