@@ -6,23 +6,8 @@ variables:
     TRAVIS_OS_NAME: linux
 
 stages:
-#  - production
   - dev
   
-# production:
-#  type: deploy
-#  stage: production
-#  image: orangecloudfoundry/orange-cf-bosh-cli
-#  script:
-#    - cd ...
-#    - cf login -a api.run.pivotal.io -u $CF_USERNAME -p $CF_PASSWORD
-#    - cf target -o GenBlue -s gmt
-#    - cf push 
-#    - curl -X POST "https://api.cloudflare.com/client/v4/zones/$CFLARE_ZONE_ID/purge_cache" -H "X-Auth-Email:$CFLARE_AUTH_USER" -H "X-Auth-Key:$CFLARE_AUTH_KEY" -H "Content-Type:application/json" --data '{"purge_everything":true}'
-    
-  only:
-    - master
-
 dev:
   type: deploy
   stage: dev
