@@ -1,7 +1,9 @@
 package com.save.mangrove;
 
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Encoder;
+
+import java.util.Base64;
+import java.util.Base64.Encoder;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.PBEParameterSpec;
@@ -70,8 +72,7 @@ public class KeyStoreManager {
 //        KeyStore keystore = KeyStore.getInstance(keyStoreType);
         KeyStore keystore = KeyStore.getInstance(instance);
 
-//        BASE64Encoder encoder = new BASE64Encoder();
-        BASE64Encoder encoder = new BASE64Encoder();
+//        Base64.Encoder encoder = new Base64.Encoder();
 //        keystore.load(new FileInputStream(keystoreFile), keyStorePassword);
 
 

@@ -3,13 +3,14 @@ package com.save.mangrove;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.JsonSerializable.Base;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import sun.misc.BASE64Encoder;
 
 @Service
 public class MangrovesImpl implements Mangrove {
@@ -29,7 +30,7 @@ public class MangrovesImpl implements Mangrove {
             store.writeKeys("KeyPair/privateKey" + userCount, store.getPrivateKey().getEncoded(), id);
             Key key = store.readKey(id);
 //            userCount++;
-            BASE64Encoder encoder = new BASE64Encoder();
+            Base64.Encoder encoder = Base64.getEncoder();
             System.out.println("---BEGIN PRIVATE KEY---AS CREATED");
             System.out.println(encoder.encode(store.getPrivateKey().getEncoded()));
             System.out.println("---END OF PRIVATE KEY-----------");
@@ -38,11 +39,11 @@ public class MangrovesImpl implements Mangrove {
             System.out.println(encoder.encode(store.getPublicKey().getEncoded()));
             System.out.println();
             System.out.println("---BEGIN PRIVATE KEY---FROM KEYSTORE");
-            String encoded = encoder.encode(key.getEncoded());
+            String encoded = encoder.encode(key.getEncoded()).toString();
             System.out.println(encoded);
             System.out.println("---END PRIVATE KEY---");
 
-            repository.updateUserData(encoder.encode(store.getPublicKey().getEncoded()), id);
+            repository.updateUserData(encoder.encode(store.getPublicKey().getEncoded()).toString(), id);
 //        }
         return store.getPrivateKey().getEncoded();
     }
