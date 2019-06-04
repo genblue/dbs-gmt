@@ -14,6 +14,8 @@ dev:
   image: orangecloudfoundry/orange-cf-bosh-cli
   script:
     - cd DLTMangrove
+    - mvn clean
+    - mvn install
 #   - mvn package
     - cf login -a api.run.pivotal.io -u $CF_USERNAME -p $CF_PASSWORD
     - cf target -o GenBlue -s gmt
