@@ -19,9 +19,9 @@ import java.util.Map;
 public class JDBCRepository implements DatabaseRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    
+
     @Autowired
-    private DLTMangroveUtility  dLTMangroveUtility;
+    private DLTMangroveUtility dLTMangroveUtility;
 
     private static final String SQL = "select * from user_data";
 
@@ -82,8 +82,8 @@ public class JDBCRepository implements DatabaseRepository {
     }
 
     @Override
-    public Object retrieveTxn(String colName,String txnId) {
-        String sql = "SELECT "+colName+" FROM transactions WHERE txnId = ?";
+    public Object retrieveTxn(String colName, String txnId) {
+        String sql = "SELECT " + colName + " FROM transactions WHERE txnId = ?";
 
         Object txn = jdbcTemplate.queryForObject(
                 sql, new Object[]{txnId}, Object.class);
@@ -100,110 +100,120 @@ public class JDBCRepository implements DatabaseRepository {
         return data;
     }
 
-	@Override
-	public List<Nursery> fetchNurseryList() {
-		 String SQL = "select * from nursery";
-	        List<Nursery> nurseryList = new ArrayList<>();
-	        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
+    @Override
+    public List<Nursery> fetchNurseryList() {
+        String SQL = "select * from nursery";
+        List<Nursery> nurseryList = new ArrayList<>();
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
 
-	        for (Map<String, Object> row : rows) {
-	            Nursery nursery = new Nursery();
-	            nursery.setNurseryId(((int)dLTMangroveUtility.isNullOrBlank(row.get("nursery_id"))));
-	            nursery.setCommunityName(dLTMangroveUtility.isNullOrBlank(row.get("CommunityName")).toString());
-	            nursery.setGeofenceLookupIndex(dLTMangroveUtility.isNullOrBlank(row.get("GeofenceLookupIndex")).toString());
-	            nursery.setGeofenceSize(dLTMangroveUtility.isNullOrBlank(row.get("GeofenceSize")).toString());
-	            nursery.setNurseryAdministratorFamilyName(dLTMangroveUtility.isNullOrBlank(row.get("NurseryAdministratorFamilyName")).toString());
-	            nursery.setNurseryAdministratorFirstName(dLTMangroveUtility.isNullOrBlank(row.get("NurseryAdministratorFirstName")).toString());
-	            nursery.setNurseryProposalSiteLocation(dLTMangroveUtility.isNullOrBlank(row.get("NurseryProposalSiteLocation")).toString());
-	            nursery.setNurserySiteName(dLTMangroveUtility.isNullOrBlank(row.get("NurserySiteName")).toString());
-	            nursery.setPhoto1Team(dLTMangroveUtility.isNullOrBlank(row.get("Photo1Team")).toString());
-	            nursery.setPhoto2NurserySite(dLTMangroveUtility.isNullOrBlank(row.get("Photo2NurserySite")).toString());
-	            nursery.setPhoto3PlantingSite(dLTMangroveUtility.isNullOrBlank(row.get("Photo3PlantingSite")).toString());
-	            nursery.setPlantationProposalSize((BigDecimal)dLTMangroveUtility.isNullOrBlank(row.get("PlantationProposalSize")));
+        for (Map<String, Object> row : rows) {
+            Nursery nursery = new Nursery();
+            nursery.setNurseryId(((int) dLTMangroveUtility.isNullOrBlank(row.get("nursery_id"))));
+            nursery.setCommunityName(dLTMangroveUtility.isNullOrBlank(row.get("CommunityName")).toString());
+            nursery.setGeofenceLookupIndex(dLTMangroveUtility.isNullOrBlank(row.get("GeofenceLookupIndex")).toString());
+            nursery.setGeofenceSize(dLTMangroveUtility.isNullOrBlank(row.get("GeofenceSize")).toString());
+            nursery.setNurseryAdministratorFamilyName(dLTMangroveUtility.isNullOrBlank(row.get("NurseryAdministratorFamilyName")).toString());
+            nursery.setNurseryAdministratorFirstName(dLTMangroveUtility.isNullOrBlank(row.get("NurseryAdministratorFirstName")).toString());
+            nursery.setNurseryProposalSiteLocation(dLTMangroveUtility.isNullOrBlank(row.get("NurseryProposalSiteLocation")).toString());
+            nursery.setNurserySiteName(dLTMangroveUtility.isNullOrBlank(row.get("NurserySiteName")).toString());
+            nursery.setPhoto1Team(dLTMangroveUtility.isNullOrBlank(row.get("Photo1Team")).toString());
+            nursery.setPhoto2NurserySite(dLTMangroveUtility.isNullOrBlank(row.get("Photo2NurserySite")).toString());
+            nursery.setPhoto3PlantingSite(dLTMangroveUtility.isNullOrBlank(row.get("Photo3PlantingSite")).toString());
+            nursery.setPlantationProposalSize((BigDecimal) dLTMangroveUtility.isNullOrBlank(row.get("PlantationProposalSize")));
 
-	            nurseryList.add(nursery);
-	        }
+            nurseryList.add(nursery);
+        }
 
-	        return nurseryList;
-	}
+        return nurseryList;
+    }
 
-	@Override
-	public int addNursery(Nursery nursery) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public void addNursery(Nursery nursery) {
+        String sql = "INSERT INTO NURSERY " +
+                "(NURSERY_ID, NurseryAdministratorFirstName, NurseryAdministratorFamilyName,NurserySiteName,CommunityName," +
+                "PlantationProposalSize) VALUES (?, ?, ? , ?, ? ,? )";
+        
+//        int row=jdbcTemplate.update(sql, new Object[]{nursery.getNurseryId(),
+//                nursery.getNurseryAdministratorFirstName(), nursery.getNurseryAdministratorFamilyName(),nursery.getNurserySiteName(),
+//                nursery.getCommunityName(),nursery.getNurseryProposalSiteLocation(),nursery.getPlantationProposalSize(),nursery.getPhoto1Team(),
+//                nursery.getPhoto2NurserySite(),nursery.getPhoto3PlantingSite(),nursery.getGeofenceLookupIndex(),nursery.getGeofenceSize()
+//        });
+        int row=jdbcTemplate.update(sql, new Object[]{nursery.getNurseryId(),
+                nursery.getNurseryAdministratorFirstName(), nursery.getNurseryAdministratorFamilyName(),nursery.getNurserySiteName(),
+                nursery.getCommunityName(),nursery.getPlantationProposalSize()
+        });
+        System.out.println(row + " row inserted.");
+    }
 
-	@Override
-	public Nursery fetchNurseryById(int nurseryId) {
-		Nursery nursery=new Nursery();
-		 String SQL = "select * from nursery where nursery_id=?";
-nursery=jdbcTemplate.queryForObject(SQL, new Object[] {nurseryId},new NurseryRowMapper());
-		return nursery;
-	}
+    @Override
+    public Nursery fetchNurseryById(int nurseryId) {
+        Nursery nursery = new Nursery();
+        String SQL = "select * from nursery where nursery_id=?";
+        nursery = jdbcTemplate.queryForObject(SQL, new Object[]{nurseryId}, new NurseryRowMapper());
+        return nursery;
+    }
 
-	@Override
-	public List<Media> fetchMedias() {
-		String query="select * from media";
-		List<Media> mediaList=new ArrayList<>();
-		List<Map<String,Object>> mediaRecords=jdbcTemplate.queryForList(query);
-		for(Map<String,Object> mediaRecord:mediaRecords) {
-			Media media=new Media();
-			media.setMedia_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_id"))));
-			media.setMedia_s3_link(dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_s3_link")).toString());
-			media.setNursery_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("nursery_id"))));
-			mediaList.add(media);
-		}
-		return mediaList;
-	}
+    @Override
+    public List<Media> fetchMedias() {
+        String query = "select * from media";
+        List<Media> mediaList = new ArrayList<>();
+        List<Map<String, Object>> mediaRecords = jdbcTemplate.queryForList(query);
+        for (Map<String, Object> mediaRecord : mediaRecords) {
+            Media media = new Media();
+            media.setMedia_id(((int) dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_id"))));
+            media.setMedia_s3_link(dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_s3_link")).toString());
+            media.setNursery_id(((int) dLTMangroveUtility.isNullOrBlank(mediaRecord.get("nursery_id"))));
+            mediaList.add(media);
+        }
+        return mediaList;
+    }
 
-	@Override
-	public List<Media> fetchMediaByNurseryid(int nurseryId) {
-		String query="select * from media where  nursery_id=?";
-		List<Media> mediaList=new ArrayList<>();
+    @Override
+    public List<Media> fetchMediaByNurseryid(int nurseryId) {
+        String query = "select * from media where  nursery_id=?";
+        List<Media> mediaList = new ArrayList<>();
 
-		List<Map<String,Object>> rows=jdbcTemplate.queryForList(query,new Object[] {nurseryId});
-		
-		for(Map<String,Object> mediaRecord:rows) {
-			Media media=new Media();
-			media.setMedia_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_id"))));
-			media.setMedia_s3_link(dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_s3_link")).toString());
-			media.setNursery_id(((int)dLTMangroveUtility.isNullOrBlank(mediaRecord.get("nursery_id"))));
-			mediaList.add(media);
-		}
-		return mediaList;
-	}
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, new Object[]{nurseryId});
 
-	@Override
-	public List<Map<String,Object>> fetchWalletForNurseryId(int nurseryId) {
-		String query ="select * from transactions where nursery_id=?";
-		List<Map<String,Object>> rows=jdbcTemplate.queryForList(query, new Object[] {nurseryId});
-		List<Map<String,Object>> transactionList=new ArrayList<>();
-		int finalAmount=0;
-		for(Map<String,Object> row:rows) {
-			Map<String,Object> resultObject=new HashMap<>();
-			resultObject.put("amount",(int)dLTMangroveUtility.isNullOrBlank(row.get("amount")));
-			resultObject.put("type",dLTMangroveUtility.isNullOrBlank(row.get("type")).toString());
+        for (Map<String, Object> mediaRecord : rows) {
+            Media media = new Media();
+            media.setMedia_id(((int) dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_id"))));
+            media.setMedia_s3_link(dLTMangroveUtility.isNullOrBlank(mediaRecord.get("media_s3_link")).toString());
+            media.setNursery_id(((int) dLTMangroveUtility.isNullOrBlank(mediaRecord.get("nursery_id"))));
+            mediaList.add(media);
+        }
+        return mediaList;
+    }
 
-			resultObject.put("mode",dLTMangroveUtility.isNullOrBlank(row.get("mode")).toString());
-			if(dLTMangroveUtility.isNullOrBlank(row.get("status")).toString().equals("successful")) {
-				if(dLTMangroveUtility.isNullOrBlank(row.get("type")).toString().equals("credit")) {
-					finalAmount+=	(int)dLTMangroveUtility.isNullOrBlank(row.get("amount"));
-				}
-				
-				else {
-					finalAmount-=	(int)dLTMangroveUtility.isNullOrBlank(row.get("amount"));
+    @Override
+    public List<Map<String, Object>> fetchWalletForNurseryId(int nurseryId) {
+        String query = "select * from transactions where nursery_id=?";
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, new Object[]{nurseryId});
+        List<Map<String, Object>> transactionList = new ArrayList<>();
+        int finalAmount = 0;
+        for (Map<String, Object> row : rows) {
+            Map<String, Object> resultObject = new HashMap<>();
+            resultObject.put("amount", (int) dLTMangroveUtility.isNullOrBlank(row.get("amount")));
+            resultObject.put("type", dLTMangroveUtility.isNullOrBlank(row.get("type")).toString());
 
-				}
-				
-			}
-			resultObject.put("nusery_id",(int)dLTMangroveUtility.isNullOrBlank(row.get("nursery_id")));
-			resultObject.put("status",dLTMangroveUtility.isNullOrBlank(row.get("status")).toString());
-			resultObject.put("closing_balance",finalAmount);
+            resultObject.put("mode", dLTMangroveUtility.isNullOrBlank(row.get("mode")).toString());
+            if (dLTMangroveUtility.isNullOrBlank(row.get("status")).toString().equals("successful")) {
+                if (dLTMangroveUtility.isNullOrBlank(row.get("type")).toString().equals("credit")) {
+                    finalAmount += (int) dLTMangroveUtility.isNullOrBlank(row.get("amount"));
+                } else {
+                    finalAmount -= (int) dLTMangroveUtility.isNullOrBlank(row.get("amount"));
 
-			transactionList.add(resultObject);
-		}
-				
-		return transactionList;
-	}
+                }
+
+            }
+            resultObject.put("nusery_id", (int) dLTMangroveUtility.isNullOrBlank(row.get("nursery_id")));
+            resultObject.put("status", dLTMangroveUtility.isNullOrBlank(row.get("status")).toString());
+            resultObject.put("closing_balance", finalAmount);
+
+            transactionList.add(resultObject);
+        }
+
+        return transactionList;
+    }
 
 }

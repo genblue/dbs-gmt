@@ -17,9 +17,11 @@ public interface Mangrove {
     
     List<Nursery> listNurseries();
     
-public List<Media> getMedias();
+    public List<Media> getMedias();
     
     public List<Media> getMediaByNurseryid(int nurseryId);
     
     public List<Map<String,Object>> getWalletByNurseryid(int nurseryId);
+
+    public void createNursery(Nursery nursery);
 }

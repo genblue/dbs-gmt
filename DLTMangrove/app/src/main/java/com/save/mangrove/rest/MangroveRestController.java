@@ -61,6 +61,12 @@ public class MangroveRestController {
         return mangrove.listNurseries();
     }
 
+    @PostMapping("/nurseries")
+    public void createNurseries(@RequestBody Nursery nursery) {
+        mangrove.createNursery(nursery);
+
+    }
+
     @GetMapping("/nursery/{id}")
     public Nursery fetchNurseryById(@PathVariable("id") int id) {
         return mangrove.fetchNurseryById(id);

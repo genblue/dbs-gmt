@@ -19,13 +19,15 @@ public interface DatabaseRepository {
     
     List<Nursery> fetchNurseryList();
     
-    public Nursery fetchNurseryById(int nurseryId);
+    Nursery fetchNurseryById(int nurseryId);
         
-    int  addNursery(Nursery nursery);
+    void addNursery(Nursery nursery);
     
-    public List<Media> fetchMedias();
+    List<Media> fetchMedias();
     
-    public List<Media> fetchMediaByNurseryid(int nurseryId);
+    List<Media> fetchMediaByNurseryid(int nurseryId);
     
-    public List<Map<String,Object>> fetchWalletForNurseryId(int nurseryId);
+    List<Map<String,Object>> fetchWalletForNurseryId(int nurseryId);
+
+
 }

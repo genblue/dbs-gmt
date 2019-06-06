@@ -120,7 +120,10 @@ public class MangrovesImpl implements Mangrove {
 
 	}
 
-
+    @Override
+    public void createNursery(Nursery nursery) {
+        repository.addNursery(nursery);
+    }
 
 
 }

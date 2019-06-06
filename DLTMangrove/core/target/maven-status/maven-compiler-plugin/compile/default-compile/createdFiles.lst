@@ -1,7 +1,0 @@
-com/save/mangrove/JDBCRepository.class
-com/save/mangrove/utils/DLTMangroveUtility.class
-com/save/mangrove/SampleKeyGenerate.class
-com/save/mangrove/GenerateKeys.class
-com/save/mangrove/KeyStoreManager.class
-com/save/mangrove/rowmappers/NurseryRowMapper.class
-com/save/mangrove/MangrovesImpl.class
